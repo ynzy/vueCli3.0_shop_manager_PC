@@ -1,0 +1,150 @@
+{
+	"editor.tabSize": 2,
+	"editor.fontSize": 16,
+	//  自动格式化
+	"editor.formatOnPaste": true,
+	"editor.formatOnSave": true,
+	"editor.formatOnType": true,
+	// 代码行宽度超过换行
+	"editor.wordWrapColumn": 100,
+	// 是否显示缩略图
+	"editor.minimap.enabled": false,
+	// git是否总是直接提交推送
+	"git.enableSmartCommit": true,
+	// 控制目录树缩进
+	"workbench.tree.indent": 4,
+	"files.associations": {
+		"*.cjson": "jsonc",
+		"*.wxss": "css",
+		"*.wxs": "javascript"
+	},
+	// 编辑器侧边栏
+	"workbench.sideBar.location": "right",
+	//! prettier配置
+	"prettier.printWidth": 100,
+	// "prettier.singleQuote": true,
+	// "prettier.semi": false,
+	"prettier.trailingComma": "none",
+	"prettier.useTabs": true,
+	"[javascript]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"[javascriptreact]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"[typescript]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"[typescriptreact]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"[json]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"[vue]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"[html]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"[css]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"[less]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"[scss]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"[markdown]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"[yaml]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	//! vetur
+	// "vetur.format.defaultFormatterOptions": {
+	// 	"prettier": {
+	// 		"semi": false,
+	// 		"singleQuote": true
+	// 	}
+	// },
+	//! minapp 配置
+	"emmet.includeLanguages": {
+		"wxml": "html"
+	},
+	"minapp-vscode.disableAutoConfig": true,
+	"minapp-vscode.wxmlFormatter": "prettyHtml", //指定格式化工具
+	"minapp-vscode.prettyHtml": {
+		//prettyHtml 默认配置
+		"useTabs": false,
+		"tabWidth": 2,
+		"printWidth": 100,
+		"singleQuote": false,
+		"usePrettier": true,
+		"wrapAttributes": false, //设置成 true 强制属性换行
+		"sortAttributes": false
+	},
+	//! 配置终端类型
+	"terminal.external.windowsExec": "D:\\develop\\Git\\bin\\bash.exe",
+	"terminal.integrated.shell.windows": "D:\\develop\\Git\\bin\\bash.exe",
+	//! 路径导入提示
+	"path-intellisense.mappings": {
+		"@": "${workspaceRoot}/src"
+	},
+	"path-intellisense.extensionOnImport": true,
+	//! sync 同步配置
+	"sync.gist": "d59c918e156f7f0f4c16b1916958fa13",
+	//! todo-tree 配置
+	"todo-tree.regex.regex": "((\\*|//|#|<!--|;|/\\*|^)\\s*($TAGS):|^\\s*- \\[ \\])",
+	"todo-tree.general.tags": ["todo", "tag", "done", "note", "fix"],
+	"todo-tree.tree.showScanModeButton": false,
+	"todo-tree.regex.regexCaseSensitive": false,
+	"todo-tree.tree.showInExplorer": true,
+	"todo-tree.highlights.defaultHighlight": {
+		/* "foreground": "white",
+    "background": "yellow",
+    "icon": "check",
+    "rulerColour": "yellow", */
+		"type": "line"
+		/* "iconColour": "yellow" */
+	},
+	"todo-tree.highlights.customHighlight": {
+		"todo": {
+			"foreground": "#f90",
+			"rulerColour": "#f90",
+			"iconColour": "#f90"
+		},
+		"done": {
+			"icon": "issue-closed",
+			"foreground": "#fdff03",
+			"rulerColour": "#fdff03",
+			"iconColour": "#fdff03"
+		},
+		"fix": {
+			"icon": "beaker",
+			"foreground": "#fb0200",
+			"rulerColour": "#fb0200",
+			"iconColour": "#fb0200",
+			"rulerLane": "full"
+		},
+		"tag": {
+			"icon": "tag",
+			"foreground": "#67cdfe",
+			"rulerColour": "#67cdfe",
+			"iconColour": "#67cdfe",
+			"rulerLane": "full"
+		},
+		"note": {
+			"foreground": "#02dc00",
+			"icon": "note",
+			"rulerColour": "#02dc00",
+			"iconColour ": "#02dc00"
+		}
+	},
+	//! 项目图标
+	"workbench.iconTheme": "material-icon-theme",
+	// 文件头部注释
+	"fileheader.Author": "zhang",
+	"fileheader.LastModifiedBy": "yong"
+}
