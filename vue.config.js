@@ -3,7 +3,7 @@ function resolve(dir) {
   return path.join(__dirname, dir) // path.join(__dirname)设置绝对路径
 }
 module.exports = {
-  lintOnSave: true, // 是否开启eslint
+  lintOnSave: false, // 是否开启eslint
   outputDir: process.env.outputDir, // build输出目录
   chainWebpack: config => {
     config.resolve.alias

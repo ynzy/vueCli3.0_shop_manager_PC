@@ -1,23 +1,14 @@
 <template>
   <div id="app">
-    app根组件
-    <login />
-    <login></login>
+    <!-- 路由占位符 -->
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-import login from '@/components/Login.vue'
 export default {
-  name: 'app',
-  components: {
-    login
-  }
+  name: 'app'
 }
 </script>
 
-<style>
-div {
-  color: #ccc;
-}
-</style>
+<style></style>
