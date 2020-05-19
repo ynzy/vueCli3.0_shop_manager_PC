@@ -31,7 +31,7 @@
         </el-form-item>
         <!-- 按钮 -->
         <el-form-item class="btns">
-          <el-button type="primary">登录</el-button>
+          <el-button type="primary" @click="login">登录</el-button>
           <el-button type="info" @click="resetLoginForm">重置</el-button>
         </el-form-item>
       </el-form>
@@ -40,6 +40,7 @@
 </template>
 
 <script>
+import { login } from '@/api/user'
 export default {
   data() {
     return {
@@ -67,6 +68,19 @@ export default {
     resetLoginForm() {
       // console.log(this)
       this.$refs['loginFormRef'].resetFields()
+    },
+    // 登录
+    login() {
+      this.$refs['loginFormRef'].validate(async valid => {
+        // console.log(valid)
+        if (!valid) return
+        let [err, res] = await this.$awaitWrap(login(this.loginForm))
+        if (err) return err.meta && this.$message(err.meta.msg)
+        console.log('login--' + err)
+
+        this.$message.success('登录成功')
+        console.log(res)
+      })
     }
   },
   mounted() {},
