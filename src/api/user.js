@@ -6,8 +6,6 @@ import request from '@/utils/http'
  * @returns
  */
 export const login = ({ ...data }) => {
-  console.log(data)
-
   return request({
     url: '/login',
     method: 'POST',
