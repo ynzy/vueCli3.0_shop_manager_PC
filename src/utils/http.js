@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { storage } from '@/utils/storage'
+import { storage, sessionStorage } from '@/utils/storage'
 
 const service = axios.create({
   baseURL: process.env.VUE_APP_BASE_URL,
@@ -10,6 +10,7 @@ const service = axios.create({
 // http请求拦截器
 service.interceptors.request.use(
   config => {
+    config.headers.Authorization = sessionStorage.get('token')
     return config
   },
   error => {
