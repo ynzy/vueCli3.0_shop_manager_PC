@@ -16,14 +16,10 @@ import '@/assets/fonts/iconfont.css' // 导入阿里图标
 
 // 引入本地存储
 import { storage, sessionStorage } from '@/utils/storage'
-// 错误处理方法
-import { awaitWrap } from './utils/util'
 
 Vue.config.productionTip = false
-
 Vue.prototype.$storage = storage
 Vue.prototype.$sessionStorage = sessionStorage
-Vue.prototype.$awaitWrap = awaitWrap
 
 new Vue({
   router,

@@ -13,7 +13,15 @@ const routes = [
   {
     path: '/home',
     name: 'home',
-    component: () => import('@/views/home/index.vue') // 首页
+    redirect: '/welcome',
+    component: () => import('@/views/home/index.vue'), // 首页
+    children: [
+      {
+        path: '/welcome',
+        name: 'welcome',
+        component: () => import('@/views/home/component/Welcome.vue') // 首页
+      }
+    ]
   },
   {
     path: '/login',

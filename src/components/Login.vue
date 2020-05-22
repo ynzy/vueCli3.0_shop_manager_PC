@@ -74,7 +74,7 @@ export default {
       this.$refs['loginFormRef'].validate(async valid => {
         // console.log(valid)
         if (!valid) return
-        let [err, res] = await this.$awaitWrap(login(this.loginForm))
+        let [err, res] = await login(this.loginForm)
         if (err) return err.meta && this.$message(err.meta.msg)
         console.log('login--' + err)
         this.$message.success('登录成功')

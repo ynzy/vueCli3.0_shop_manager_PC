@@ -15,11 +15,11 @@
     <!-- 页面主体 -->
     <el-container>
       <!-- 侧边栏 -->
-      <el-aside width="200px">
-        <v-aside></v-aside>
-      </el-aside>
+      <v-aside></v-aside>
       <!-- 右侧内容 -->
-      <el-main>Main</el-main>
+      <el-main>
+        <router-view></router-view>
+      </el-main>
     </el-container>
   </el-container>
 </template>
