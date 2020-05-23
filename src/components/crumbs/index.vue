@@ -27,4 +27,8 @@ export default {
 </script>
 <style lang="less" scoped>
 /* @import url(); 引入css类 */
+.el-breadcrumb {
+  margin-bottom: 15px;
+  font-size: 12px;
+}
 </style>

@@ -33,6 +33,26 @@
           </template>
         </el-menu-item>
       </el-submenu>
+      <!-- 一级菜单 -->
+      <el-submenu :index="item.id + ''" v-for="item in menulist2" :key="item.id">
+        <!-- 一级菜单区域 -->
+        <template slot="title">
+          <i :class="iconsObj[item.id]"></i>
+          <span>{{ item.authName }}</span>
+        </template>
+        <!-- 二级菜单 -->
+        <el-menu-item
+          :index="`/${subItem.path}`"
+          v-for="subItem in item.children"
+          :key="subItem.id"
+          @click="saveNavState(`/${subItem.path}`)"
+        >
+          <template slot="title">
+            <i class="el-icon-menu"></i>
+            <span>{{ subItem.authName }}</span>
+          </template>
+        </el-menu-item>
+      </el-submenu>
     </el-menu>
   </el-aside>
 </template>
@@ -45,12 +65,22 @@ export default {
     return {
       isCollapse: false, // 是否折叠
       menulist: [], //菜单列表
+      menulist2: [
+        {
+          id: 437,
+          authName: '其他功能',
+          path: 'users',
+          children: [{ id: 438, authName: '富文本', path: 'richText', children: [], order: null }],
+          order: 1
+        }
+      ],
       iconsObj: {
         '125': 'iconfont icon-user',
         '103': 'iconfont icon-tijikongjian',
         '101': 'iconfont icon-shangpin',
         '102': 'iconfont icon-danju',
-        '145': 'iconfont icon-baobiao'
+        '145': 'iconfont icon-baobiao',
+        '437': 'iconfont icon-baobiao'
       },
       // 被激活的链接地址
       activePath: ''
