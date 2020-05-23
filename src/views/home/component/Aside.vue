@@ -11,6 +11,7 @@
       background-color="#333744"
       text-color="#fff"
       active-text-color="#409EFF"
+      :default-active="activePath"
     >
       <!-- 一级菜单 -->
       <el-submenu :index="item.id + ''" v-for="item in menulist" :key="item.id">
@@ -24,6 +25,7 @@
           :index="`/${subItem.path}`"
           v-for="subItem in item.children"
           :key="subItem.id"
+          @click="saveNavState(`/${subItem.path}`)"
         >
           <template slot="title">
             <i class="el-icon-menu"></i>
@@ -49,10 +51,21 @@ export default {
         '101': 'iconfont icon-shangpin',
         '102': 'iconfont icon-danju',
         '145': 'iconfont icon-baobiao'
-      }
+      },
+      // 被激活的链接地址
+      activePath: ''
     }
   },
+  mounted() {
+    this.getMenusList()
+    this.activePath = this.$sessionStorage.get('activePath')
+  },
   methods: {
+    // 保存链接的激活状态
+    saveNavState(activePath) {
+      this.$sessionStorage.set('activePath', activePath)
+      this.activePath = activePath
+    },
     // 点击按钮，切换菜单的折叠与展开
     toggleCollapse() {
       this.isCollapse = !this.isCollapse
@@ -66,9 +79,6 @@ export default {
       console.log(res)
       this.menulist = res.data
     }
-  },
-  mounted() {
-    this.getMenusList()
   },
   components: {}
 }
