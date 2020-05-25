@@ -106,7 +106,7 @@ export default {
         console.log(err)
         return
       }
-      console.log(res)
+      // console.log(res)
       this.menulist = res.data
     }
   },

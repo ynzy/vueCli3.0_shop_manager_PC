@@ -28,7 +28,9 @@ service.interceptors.response.use(
   res => {
     //可以根据后端的系统而相应的做调整
     let status = res.data.meta.status
-    if (status !== 200) {
+    var statusArr = [200, 201]
+    // 如果不包含此状态就是失败
+    if (!statusArr.includes(status)) {
       return Promise.reject(res.data)
     } else {
       if (erorrMap[status]) {
