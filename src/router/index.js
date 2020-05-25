@@ -42,6 +42,11 @@ const routes = [
     path: '/login',
     name: 'login',
     component: () => import('@/components/Login') // 登录
+  },
+  {
+    path: '/newlogin',
+    name: 'login',
+    component: () => import('@/views/login/index.vue') // 登录
   }
 ]
 
@@ -59,7 +64,7 @@ router.beforeEach((to, from, next) => {
   if (to.path === '/login') return next()
   // 获取token
   const token = sessionStorage.get('token')
-  if (!token) return next('/login')
+  // if (!token) return next('/login')
   next()
 })
 export default router
