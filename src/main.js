@@ -2,7 +2,7 @@
  * @Author: zhang
  * @Date: 2020-05-16 18:24:01
  * @Last Modified by: yong
- * @Last Modified time: 2020-05-25 22:37:55
+ * @Last Modified time: 2020-05-25 22:54:55
  */
 
 import Vue from 'vue'
@@ -16,6 +16,8 @@ import '@/assets/fonts/iconfont.css' // 导入阿里图标
 
 import VueParticles from 'vue-particles'
 Vue.use(VueParticles)
+import particles from 'particles.js'
+Vue.use(particles)
 
 // 引入本地存储
 import { storage, sessionStorage } from '@/utils/storage'
