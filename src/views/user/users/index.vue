@@ -94,7 +94,14 @@
 </template>
 
 <script>
-import { userList, userStateUpdate, addUser } from '../../../api/user'
+import {
+  userList,
+  userStateUpdate,
+  addUser,
+  getUser,
+  editUser,
+  deleteUser
+} from '../../../api/user'
 import crumbs from '@/components/crumbs/index.vue'
 import EditDialogVue from './component/EditDialog.vue'
 
@@ -125,12 +132,7 @@ export default {
         dialogVisible: false,
         type: 'add'
       },
-      editForm: {
-        username: 'user',
-        password: '123456',
-        email: '758922096@qq.com',
-        mobile: '15899693536'
-      }
+      editForm: {} //添加编辑用户信息
     }
   },
   methods: {
@@ -159,25 +161,81 @@ export default {
     // 显示编辑弹框
     showEditDialog(type, userId) {
       this.editDialog.type = type
+      if (type == 'edit') {
+        return this.getUserInfo(userId)
+      }
+      this.editForm = {
+        username: 'user',
+        password: '123456',
+        email: '758922096@qq.com',
+        mobile: '15899693536'
+      }
       this.editDialog.dialogVisible = true
     },
     // 编辑用户
     editUserInfo(value) {
       const { type, from } = value
-      console.log(type, from)
-      this.editDialog.dialogVisible = false
-      if (type == 'add') {
-        this.handelAdduser(from)
+      // console.log(type, from)
+      if (type == 'edit') {
+        return this.handleEditUser(from)
       }
+      this.handelAdduser(from)
     },
+    async getUserInfo(id) {
+      let [err, res] = await getUser({ id })
+      if (err) {
+        console.log(err)
+        return this.$message.error(err.meta.msg)
+      }
+      console.log(res.data)
+      this.editForm = res.data
+      this.editDialog.dialogVisible = true
+    },
+    // 添加用户
     async handelAdduser(from) {
       let [err, res] = await addUser(from)
       if (err) {
         console.log(err)
         return this.$message.error(err.meta.msg || '添加用户失败')
       }
+
       console.log(res)
       this.$message.success(res.meta.msg)
+      this.getUserList()
+      this.editDialog.dialogVisible = false
+    },
+    // 编辑用户
+    async handleEditUser(from) {
+      let [err, res] = await editUser(from)
+      if (err) {
+        console.log(err)
+        return this.$message.error(err.meta.msg || '编辑用户失败')
+      }
+      console.log(res)
+      this.$message.success(res.meta.msg)
+      this.getUserList()
+      this.editDialog.dialogVisible = false
+    },
+    // 删除用户
+    async removeUserById(id) {
+      // 弹窗询问是否删除
+      const confirmResult = await this.$confirm('此操作将永久删除该用户, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).catch(err => err)
+      // 如果用户确认删除，则返回值为字符串 confirm
+      // 如果用户取消了删除，则返回值为字符串 cancel
+      console.log(confirmResult)
+      if (confirmResult !== 'confirm') {
+        return this.$message.info('已取消删除')
+      }
+      let [err, res] = await deleteUser({ id })
+      if (err) {
+        console.log(err)
+        return this.$message.error(err.meta.msg || '删除用户失败')
+      }
+      this.$message.success(res.meta.msg || '删除用户成功')
       this.getUserList()
     },
     // 监听 pageSize 发生改变

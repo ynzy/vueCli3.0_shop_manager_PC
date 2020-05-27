@@ -39,19 +39,17 @@ service.interceptors.response.use(
     var statusArr = [200, 201, 204]
     // 如果不包含此状态就是失败
     if (statusArr.includes(status)) {
-      return Promise.resolve(res.data)
+      return res.data
     } else {
       if (erorrMap[status]) {
         //erorrMap[code]
-        if (status == 400) {
+        if (status == 400 && res.data.meta.msg == 'token失效') {
           // token失效
           Message.error(res.data.meta.msg)
           sessionStorage.remove('token')
           router.replace('/login')
         }
         return Promise.reject(res.data)
-      } else {
-        return Promise.resolve(res.data)
       }
     }
     return res.data
