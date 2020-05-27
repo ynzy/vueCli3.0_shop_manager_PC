@@ -43,7 +43,7 @@ service.interceptors.response.use(
     } else {
       if (erorrMap[status]) {
         //erorrMap[code]
-        if (status == 400 && res.data.meta.msg == 'token失效') {
+        if (status == 400 && res.data.meta.msg == '无效token') {
           // token失效
           Message.error(res.data.meta.msg)
           sessionStorage.remove('token')

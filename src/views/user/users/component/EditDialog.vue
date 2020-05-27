@@ -112,7 +112,7 @@ export default {
   methods: {
     editUserInfo() {
       this.$refs.editFormRef.validate(valid => {
-        if (!valid) return
+        if (!valid) return this.$message.error('请填写完整用户信息')
         this.$emit('editUserInfo', { type: this.dialog.type, from: this.editForm })
       })
     },

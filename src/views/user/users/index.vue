@@ -181,6 +181,7 @@ export default {
       }
       this.handelAdduser(from)
     },
+    // 通过id获取用户信息
     async getUserInfo(id) {
       let [err, res] = await getUser({ id })
       if (err) {
@@ -198,7 +199,6 @@ export default {
         console.log(err)
         return this.$message.error(err.meta.msg || '添加用户失败')
       }
-
       console.log(res)
       this.$message.success(res.meta.msg)
       this.getUserList()
