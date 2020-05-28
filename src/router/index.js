@@ -27,9 +27,14 @@ const routes = [
         component: () => import('@/views/user/users/index.vue') // 用户列表
       },
       {
+        path: '/rights',
+        name: 'rights',
+        component: () => import('@/views/power/rights/index.vue') // 角色列表
+      },
+      {
         path: '/roles',
         name: 'roles',
-        component: () => import('@/views/power/Roles/index.vue') // 角色列表
+        component: () => import('@/views/power/roles/index.vue') // 角色列表
       },
       {
         path: '/richText',
