@@ -2,7 +2,7 @@
  * @Author: zhang
  * @Date: 2020-05-16 18:24:01
  * @Last Modified by: yong
- * @Last Modified time: 2020-05-25 22:54:55
+ * @Last Modified time: 2020-05-27 09:39:00
  */
 
 import Vue from 'vue'
@@ -25,7 +25,14 @@ import { storage, sessionStorage } from '@/utils/storage'
 Vue.config.productionTip = false
 Vue.prototype.$storage = storage
 Vue.prototype.$sessionStorage = sessionStorage
+Vue.prototype.$errorMsg = errorMsg
 
+function errorMsg(err, msg) {
+  if (err) {
+    console.log(err)
+    return this.$message.error(err.meta.msg || msg)
+  }
+}
 new Vue({
   router,
   store,

@@ -62,3 +62,48 @@ export const addUser = ({ ...data }) => {
     })
   )
 }
+
+/**
+ * 根据 ID 查询用户信息
+ * @param {*} id 用户id
+ * @returns
+ */
+export const getUser = ({ ...params }) => {
+  return awaitWrap(
+    request({
+      url: `users/${params.id}`,
+      method: 'GET'
+    })
+  )
+}
+
+/**
+ * 编辑用户提交
+ * @param {*} id 用户id
+ * @returns
+ */
+export const editUser = ({ ...data }) => {
+  let { id, rid, username, ...newData } = data
+  return awaitWrap(
+    request({
+      url: `users/${id}`,
+      method: 'PUT',
+      data: newData
+    })
+  )
+}
+
+/**
+ * 删除单个用户
+ * @param {*} id 用户id
+ * @returns
+ */
+export const deleteUser = ({ ...data }) => {
+  let { id } = data
+  return awaitWrap(
+    request({
+      url: `users/${id}`,
+      method: 'DELETE'
+    })
+  )
+}

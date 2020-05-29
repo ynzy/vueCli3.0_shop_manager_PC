@@ -10,9 +10,9 @@
       <!-- 内容区域 -->
       <el-form ref="editFormRef" :model="editForm" :rules="editFormRules" label-width="70px">
         <el-form-item label="用户名" prop="username">
-          <el-input v-model="editForm.username"></el-input>
+          <el-input v-model="editForm.username" :disabled="dialog.type == 'edit'"></el-input>
         </el-form-item>
-        <el-form-item label="密码" prop="password">
+        <el-form-item label="密码" prop="password" v-if="dialog.type == 'add'">
           <el-input v-model="editForm.password"></el-input>
         </el-form-item>
         <el-form-item label="邮箱" prop="email">
@@ -112,7 +112,7 @@ export default {
   methods: {
     editUserInfo() {
       this.$refs.editFormRef.validate(valid => {
-        if (!valid) return
+        if (!valid) return this.$message.error('请填写完整用户信息')
         this.$emit('editUserInfo', { type: this.dialog.type, from: this.editForm })
       })
     },
