@@ -28,3 +28,16 @@ export const getRoles = () => {
     })
   )
 }
+
+/**
+ * 删除角色指定权限
+ * @returns
+ */
+export const deleteRolesRights = ({ roleId, rightId }) => {
+  return awaitWrap(
+    request({
+      url: `roles/${roleId}/rights/${rightId}`,
+      method: 'delete'
+    })
+  )
+}
