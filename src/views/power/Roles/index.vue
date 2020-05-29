@@ -37,13 +37,16 @@
         </el-table-column>
       </el-table>
     </el-card>
+    <!-- 分配权限弹框 -->
+    <SetRightDialogVue :dialog="setRightDialog" :rightsList="rightsList" :role="role" />
   </div>
 </template>
 
 <script>
 import crumbs from '@/components/crumbs/index.vue'
-import { getRoles } from '../../../api/power'
+import { getRoles, getRights } from '../../../api/power'
 import RolePrivilegesVue from './component/RolePrivileges.vue'
+import SetRightDialogVue from './component/SetRightDialog.vue'
 
 export default {
   data() {
@@ -61,7 +64,13 @@ export default {
         }
       ],
       // 所有角色列表数据
-      roleList: []
+      roleList: [],
+      role: {}, // 当前角色
+      setRightDialog: {
+        title: '分配权限',
+        dialogVisible: false
+      },
+      rightsList: []
     }
   },
   methods: {
@@ -74,6 +83,19 @@ export default {
       // console.log(res)
       this.$message.success(res.meta.msg)
       this.roleList = res.data
+    },
+    // 展示分配权限弹框
+    async showSetRightDialog(role) {
+      // 获取所有权限数据
+      let [err, res] = await getRights({ type: 'tree' })
+      if (err) {
+        console.log(err)
+        return this.$message.error(err.meta.msg || '获取权限列表失败')
+      }
+      console.log(res)
+      this.rightsList = res.data
+      this.role = role
+      this.setRightDialog.dialogVisible = true
     }
   },
   mounted() {
@@ -81,7 +103,8 @@ export default {
   },
   components: {
     crumbs,
-    RolePrivilegesVue
+    RolePrivilegesVue,
+    SetRightDialogVue
   }
 }
 </script>
