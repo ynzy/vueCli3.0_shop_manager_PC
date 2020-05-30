@@ -16,7 +16,7 @@ module.exports = {
     // host: 'localhost',
     port: '9090',
     https: false, // 是否使用https协议
-    hotOnly: false, // 是否开启热更新
+    hotOnly: true, // 是否开启热更新
     proxy: null
   }
 }

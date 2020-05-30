@@ -67,7 +67,7 @@
                 type="warning"
                 icon="el-icon-setting"
                 size="mini"
-                @click="setRole(scope.row)"
+                @click="handleSetRole(scope.row)"
               ></el-button>
             </el-tooltip>
           </template>
@@ -85,11 +85,13 @@
       >
       </el-pagination>
     </el-card>
-    <edit-dialog-vue
-      :dialog="editDialog"
-      :editForm="editForm"
-      @editUserInfo="editUserInfo"
-    ></edit-dialog-vue>
+    <edit-dialog-vue :dialog="editDialog" :editForm="editForm" @editUserInfo="editUserInfo" />
+    <SetRoleDialogVue
+      :dialog="setRoleDialog"
+      :userInfo="currentUser"
+      :roleList="roleList"
+      @saveSoleInfo="saveSoleInfo"
+    />
   </div>
 </template>
 
@@ -100,10 +102,13 @@ import {
   addUser,
   getUser,
   editUser,
-  deleteUser
+  deleteUser,
+  updateUserRole
 } from '../../../api/user'
 import crumbs from '@/components/crumbs/index.vue'
 import EditDialogVue from './component/EditDialog.vue'
+import SetRoleDialogVue from './component/SetRoleDialog.vue'
+import { getRoles } from '../../../api/power'
 
 export default {
   data() {
@@ -132,10 +137,48 @@ export default {
         dialogVisible: false,
         type: 'add'
       },
-      editForm: {} //添加编辑用户信息
+      editForm: {}, //添加编辑用户信息
+      setRoleDialog: {
+        // 分配角色弹框
+        title: '分配角色',
+        dialogVisible: false
+      },
+      currentUser: {}, // 当前点击用户
+      roleList: [] //角色列表
     }
   },
   methods: {
+    // 保存分配角色
+    async saveSoleInfo(item) {
+      console.log(item)
+
+      let [err, res] = await updateUserRole(item)
+      if (err) {
+        console.log(err)
+        return this.$message.error(err.meta.msg || '保存失败')
+      }
+      console.log(res)
+      this.$message.success('保存成功')
+      this.setRoleDialog.dialogVisible = false
+      this.getUserList()
+    },
+    // 分配角色弹框显示
+    handleSetRole(user) {
+      this.getRoleList()
+      this.currentUser = user
+      this.setRoleDialog.dialogVisible = true
+    },
+    // 获取角色列表
+    async getRoleList() {
+      let [err, res] = await getRoles()
+      if (err) {
+        console.log(err)
+        return this.$message.error(err.meta.msg || '获取角色列表失败')
+      }
+      // console.log(res)
+      // this.$message.success(res.meta.msg)
+      this.roleList = res.data
+    },
     // 获取用户列表
     async getUserList() {
       let [err, res] = await userList(this.queryInfo)
@@ -254,7 +297,8 @@ export default {
   },
   components: {
     crumbs,
-    EditDialogVue
+    EditDialogVue,
+    SetRoleDialogVue
   }
 }
 </script>

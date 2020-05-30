@@ -107,3 +107,22 @@ export const deleteUser = ({ ...data }) => {
     })
   )
 }
+
+/**
+ * 分配用户角色
+ * @param {*} id 用户id
+ * @param {*} rid 角色id
+ * @returns
+ */
+export const updateUserRole = ({ ...data }) => {
+  let { id, rid } = data
+  return awaitWrap(
+    request({
+      url: `users/${id}/role`,
+      method: 'put',
+      data: {
+        rid
+      }
+    })
+  )
+}
