@@ -41,3 +41,17 @@ export const deleteRolesRights = ({ roleId, rightId }) => {
     })
   )
 }
+
+/**
+ * 分配权限
+ * @returns
+ */
+export const allotRights = ({ roleId, rids }) => {
+  return awaitWrap(
+    request({
+      url: `roles/${roleId}/rights`,
+      method: 'post',
+      data: { rids }
+    })
+  )
+}

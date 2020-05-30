@@ -9,6 +9,7 @@
     >
       <!-- 树形控件 -->
       <el-tree
+        ref="treeRef"
         :data="rightsList"
         :props="treeProps"
         show-checkbox
@@ -19,7 +20,7 @@
 
       <span slot="footer" class="dialog-footer">
         <el-button @click="handleCancle">取 消</el-button>
-        <el-button type="primary" @click="dialog.dialogVisible = false">确 定</el-button>
+        <el-button type="primary" @click="handleConfirm">确 定</el-button>
       </span>
     </el-dialog>
   </div>
@@ -58,7 +59,15 @@ export default {
   },
   methods: {
     // 为角色分配权限
-    allotRights() {},
+    handleConfirm() {
+      const keys = [
+        ...this.$refs.treeRef.getCheckedKeys(),
+        ...this.$refs.treeRef.getHalfCheckedKeys()
+      ]
+      // console.log(keys)
+      const idStr = keys.join(',')
+      this.$emit('handleAllotRights', { rids: idStr })
+    },
     handleClose(done) {
       this.defaultKeys = []
       done()

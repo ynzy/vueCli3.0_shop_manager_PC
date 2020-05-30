@@ -38,13 +38,18 @@
       </el-table>
     </el-card>
     <!-- 分配权限弹框 -->
-    <SetRightDialogVue :dialog="setRightDialog" :rightsList="rightsList" :role="role" />
+    <SetRightDialogVue
+      :dialog="setRightDialog"
+      :rightsList="rightsList"
+      :role="role"
+      @handleAllotRights="handleAllotRights"
+    />
   </div>
 </template>
 
 <script>
 import crumbs from '@/components/crumbs/index.vue'
-import { getRoles, getRights } from '../../../api/power'
+import { getRoles, getRights, allotRights } from '../../../api/power'
 import RolePrivilegesVue from './component/RolePrivileges.vue'
 import SetRightDialogVue from './component/SetRightDialog.vue'
 
@@ -74,6 +79,16 @@ export default {
     }
   },
   methods: {
+    async handleAllotRights(item) {
+      let [err, res] = await allotRights({ roleId: this.role.id, rids: item.rids })
+      if (err) {
+        console.log(err)
+        return this.$message.error(err.meta.msg || '更新权限失败')
+      }
+      this.$message.success('分配权限成功')
+      this.getRoleList()
+      this.setRightDialog.dialogVisible = false
+    },
     async getRoleList() {
       let [err, res] = await getRoles()
       if (err) {
