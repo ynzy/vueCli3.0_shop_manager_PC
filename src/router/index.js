@@ -37,6 +37,11 @@ const routes = [
         component: () => import('@/views/power/roles/index.vue') // 角色列表
       },
       {
+        path: '/categories',
+        name: 'categories',
+        component: () => import('@/views/goods/categories/index.vue') // 商品分类列表
+      },
+      {
         path: '/richText',
         name: 'richText',
         component: () => import('@/views/richText/index.vue') // 富文本

@@ -150,8 +150,6 @@ export default {
   methods: {
     // 保存分配角色
     async saveSoleInfo(item) {
-      console.log(item)
-
       let [err, res] = await updateUserRole(item)
       if (err) {
         console.log(err)

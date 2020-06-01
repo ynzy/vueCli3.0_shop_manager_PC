@@ -2,7 +2,7 @@
  * @Author: zhang
  * @Date: 2020-05-16 18:24:01
  * @Last Modified by: yong
- * @Last Modified time: 2020-05-27 09:39:00
+ * @Last Modified time: 2020-06-01 09:54:06
  */
 
 import Vue from 'vue'
@@ -15,10 +15,11 @@ import '@/assets/css/global.css' // 全局样式表
 import '@/assets/fonts/iconfont.css' // 导入阿里图标
 
 import VueParticles from 'vue-particles'
-Vue.use(VueParticles)
 import particles from 'particles.js'
+import TreeTable from 'vue-table-with-tree-grid'
+Vue.use(VueParticles)
 Vue.use(particles)
-
+Vue.component('tree-table', TreeTable)
 // 引入本地存储
 import { storage, sessionStorage } from '@/utils/storage'
 

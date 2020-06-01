@@ -101,7 +101,7 @@ export default {
     },
     // 展示分配权限弹框
     async showSetRightDialog(role) {
-      // 获取所有权限数据
+      // 在展示对话框之前，先获取到权限的树形结构数据
       let [err, res] = await getRights({ type: 'tree' })
       if (err) {
         console.log(err)
