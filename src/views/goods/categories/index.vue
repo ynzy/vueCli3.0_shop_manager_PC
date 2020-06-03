@@ -7,7 +7,7 @@
     <el-card>
       <el-row>
         <el-col>
-          <el-button type="primary">添加分类</el-button>
+          <el-button type="primary" @click="showEditCateDialog('add')">添加分类</el-button>
         </el-col>
       </el-row>
       <!-- 表格 -->
@@ -39,7 +39,13 @@
         </template>
         <!-- 操作 -->
         <template slot="opt">
-          <el-button type="primary" icon="el-icon-edit" size="mini">编辑</el-button>
+          <el-button
+            type="primary"
+            icon="el-icon-edit"
+            size="mini"
+            @click="showEditCateDialog('edit')"
+            >编辑</el-button
+          >
           <el-button type="danger" icon="el-icon-delete" size="mini">删除</el-button>
         </template>
       </tree-table>
@@ -56,12 +62,15 @@
       >
       </el-pagination>
     </el-card>
+    <EditCateDialogVue :dialog="cateDialog" :editForm="editCateForm" />
   </div>
 </template>
 
 <script>
 import { getCategories } from '@/api/goods.js'
 import crumbs from '@/components/crumbs/index.vue'
+import EditCateDialogVue from './component/EditCateDialog.vue'
+
 export default {
   data() {
     return {
@@ -117,10 +126,28 @@ export default {
           // 表示当前这一列使用模板名称
           template: 'opt'
         }
-      ]
+      ],
+      // 分类弹框
+      cateDialog: {
+        title: '分类',
+        dialogVisible: true,
+        type: 'add'
+      },
+      // 分类表单
+      editCateForm: {
+        cat_name: ''
+      }
     }
   },
   methods: {
+    showEditCateDialog(type) {
+      this.cateDialog.type = type
+      if (type == 'edit') {
+        return
+      }
+      this.cateDialog.dialogVisible = true
+    },
+
     // 获取商品分类数据
     async getCateList() {
       let [err, res] = await getCategories(this.queryInfo)
@@ -147,7 +174,8 @@ export default {
     this.getCateList()
   },
   components: {
-    crumbs
+    crumbs,
+    EditCateDialogVue
   }
 }
 </script>
