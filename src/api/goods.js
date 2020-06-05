@@ -17,3 +17,66 @@ export const getCategories = ({ ...params }) => {
     })
   )
 }
+
+/**
+ * 商品分类数据列表
+ * @param {不能为空} cat_pid  分类父ID  如果要添加1级分类，则父分类Id应该设置为  0
+ * @param {不能为空} cat_name 分类名称
+ * @param {不能为空} cat_level 分类层级  0表示一级分类；1表示二级分类；2表示三级分类
+ * @returns
+ */
+export const addCategories = ({ ...data }) => {
+  return awaitWrap(
+    request({
+      url: `categories`,
+      method: 'post',
+      data
+    })
+  )
+}
+
+/**
+ * 商品分类数据列表
+ * @param {*} id  分类id
+ * @returns
+ */
+export const getCategoriesInfo = ({ ...data }) => {
+  return awaitWrap(
+    request({
+      url: `categories/${data.id}`,
+      method: 'get'
+    })
+  )
+}
+
+/**
+ * 编辑商品分类
+ * @param {*} id  分类id
+ * @returns
+ */
+export const editCategoriesInfo = ({ ...data }) => {
+  let { id, cat_name } = data
+  return awaitWrap(
+    request({
+      url: `categories/${id}`,
+      method: 'put',
+      data: {
+        cat_name
+      }
+    })
+  )
+}
+
+/**
+ * 删除商品分类
+ * @param {*} id  分类id
+ * @returns
+ */
+export const deleteCategoriesInfo = ({ ...data }) => {
+  return awaitWrap(
+    request({
+      url: `categories/${data.id}`,
+      method: 'delete'
+    })
+  )
+}

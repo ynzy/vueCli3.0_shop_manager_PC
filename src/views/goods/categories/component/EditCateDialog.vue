@@ -4,6 +4,7 @@
     <el-dialog
       :title="dialog.type == 'add' ? `添加${dialog.title}` : `修改${dialog.title}`"
       :visible.sync="dialog.dialogVisible"
+      @close="handleClose"
       width="40%"
     >
       <!-- 添加分类的表单 -->
@@ -11,7 +12,7 @@
         <el-form-item label="分类名称" prop="cat_name">
           <el-input v-model="editForm.cat_name"></el-input>
         </el-form-item>
-        <el-form-item label="父级分类">
+        <el-form-item label="父级分类" v-if="dialog.type == 'add'">
           <!-- options指定数据源 -->
           <!-- props指定配置对象 -->
           <el-cascader
@@ -40,7 +41,8 @@ export default {
       default: function(value) {
         return {
           title: '提示',
-          dialogVisible: false
+          dialogVisible: false,
+          type: 'add'
         }
       }
     },
@@ -75,10 +77,27 @@ export default {
     }
   },
   methods: {
-    handleConfirm() {},
+    handleConfirm() {
+      this.$refs.form.validate(valid => {
+        if (!valid) return
+        this.$emit('handleConfirm', this.editForm)
+      })
+    },
     // 选择项发生变化触发这个函数
     parentCateChanged() {
-      console.log(this.selectedKeys)
+      // console.log(this.selectedKeys)
+      // !查找父级分类id，分类等级
+      // 如果selectedKeys 数组中的length>0,证明选中的父级分类
+      // 否则，就说明没有选中任何父级分类
+      if (this.selectedKeys.length > 0) {
+        // 父级分类的id
+        this.editForm.cat_pid = this.selectedKeys[this.selectedKeys.length - 1]
+        // 为当前分类的等级赋值
+        this.editForm.cat_level = this.selectedKeys.length
+        return
+      }
+      this.editForm.cat_pid = 0
+      this.editForm.cat_level = 0
     },
     // 获取父级分类列表
     async getParentCateList() {
@@ -87,9 +106,15 @@ export default {
         console.log(err)
         return this.$message.error(err.message || '获取父级分类数据失败')
       }
-      console.log(res)
+      // console.log(res)
       this.$message.success(res.message || '获取成功')
       this.parentCateList = res.data
+    },
+    handleClose() {
+      this.$refs.form.resetFields()
+      this.selectedKeys = []
+      this.editForm.cat_pid = 0
+      this.editForm.cat_level = 0
     }
   },
   mounted() {

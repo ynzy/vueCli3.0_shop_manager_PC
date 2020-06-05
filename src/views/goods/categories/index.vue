@@ -38,15 +38,21 @@
           <el-tag type="warning" size="mini" v-else>三级</el-tag>
         </template>
         <!-- 操作 -->
-        <template slot="opt">
+        <template slot="opt" slot-scope="scope">
           <el-button
             type="primary"
             icon="el-icon-edit"
             size="mini"
-            @click="showEditCateDialog('edit')"
+            @click="showEditCateDialog('edit', scope.row.cat_id)"
             >编辑</el-button
           >
-          <el-button type="danger" icon="el-icon-delete" size="mini">删除</el-button>
+          <el-button
+            type="danger"
+            icon="el-icon-delete"
+            size="mini"
+            @click="handleCateDelete(scope.row.cat_id)"
+            >删除</el-button
+          >
         </template>
       </tree-table>
       <!-- 分页区域 -->
@@ -62,12 +68,22 @@
       >
       </el-pagination>
     </el-card>
-    <EditCateDialogVue :dialog="cateDialog" :editForm="editCateForm" />
+    <EditCateDialogVue
+      :dialog="cateDialog"
+      :editForm="editCateForm"
+      @handleConfirm="editCateConfirm"
+    />
   </div>
 </template>
 
 <script>
-import { getCategories } from '@/api/goods.js'
+import {
+  getCategories,
+  addCategories,
+  getCategoriesInfo,
+  editCategoriesInfo,
+  deleteCategoriesInfo
+} from '@/api/goods.js'
 import crumbs from '@/components/crumbs/index.vue'
 import EditCateDialogVue from './component/EditCateDialog.vue'
 
@@ -130,24 +146,83 @@ export default {
       // 分类弹框
       cateDialog: {
         title: '分类',
-        dialogVisible: true,
+        dialogVisible: false,
         type: 'add'
       },
       // 分类表单
       editCateForm: {
-        cat_name: ''
+        cat_name: '',
+        cat_pid: 0,
+        cat_level: 0
       }
     }
   },
   methods: {
-    showEditCateDialog(type) {
+    // 展示添加编辑分类按钮
+    showEditCateDialog(type, id) {
       this.cateDialog.type = type
       if (type == 'edit') {
-        return
+        return this.getCateInfo(id)
       }
       this.cateDialog.dialogVisible = true
     },
-
+    // 保存添加编辑分类
+    editCateConfirm(from) {
+      if (this.cateDialog.type == 'edit') {
+        return this.editCategories()
+      }
+      this.addCategories()
+    },
+    // 添加分类
+    async addCategories() {
+      let [err, res] = await addCategories(this.editCateForm)
+      if (err) {
+        console.log(err)
+        return this.$message.error(err.message || '添加失败')
+      }
+      // console.log(res)
+      this.$message.success(res.message || '添加成功')
+      this.cateDialog.dialogVisible = false
+      this.getCateList()
+    },
+    // 编辑分类
+    async editCategories() {
+      let [err, res] = await editCategoriesInfo({
+        id: this.editCateForm.cat_id,
+        cat_name: this.editCateForm.cat_name
+      })
+      if (err) {
+        console.log(err)
+        return this.$message.error(err.message || '保存失败')
+      }
+      // console.log(res)
+      this.$message.success(res.message || '保存成功')
+      this.cateDialog.dialogVisible = false
+      this.getCateList()
+    },
+    // 获取分类详情
+    async getCateInfo(id) {
+      let [err, res] = await getCategoriesInfo({ id })
+      if (err) {
+        console.log(err)
+        return this.$message.error(err.message || '获取失败')
+      }
+      // console.log(res)
+      this.$message.success(res.message || '获取成功')
+      this.editCateForm = res.data
+      this.cateDialog.dialogVisible = true
+    },
+    // 删除分类
+    async handleCateDelete(id) {
+      let [err, res] = await deleteCategoriesInfo({ id })
+      if (err) {
+        console.log(err)
+        return this.$message.error(err.message || '删除失败')
+      }
+      console.log(res)
+      this.$message.success(res.message || '删除成功')
+      this.getCateList()
+    },
     // 获取商品分类数据
     async getCateList() {
       let [err, res] = await getCategories(this.queryInfo)
