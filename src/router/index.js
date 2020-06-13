@@ -42,6 +42,11 @@ const routes = [
         component: () => import('@/views/goods/categories/index.vue') // 商品分类列表
       },
       {
+        path: '/params',
+        name: 'params',
+        component: () => import('@/views/goods/params/index.vue') // 分类参数
+      },
+      {
         path: '/richText',
         name: 'richText',
         component: () => import('@/views/richText/index.vue') // 富文本

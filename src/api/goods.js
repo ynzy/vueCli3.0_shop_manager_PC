@@ -80,3 +80,20 @@ export const deleteCategoriesInfo = ({ ...data }) => {
     })
   )
 }
+
+/**
+ * 获取分类参数
+ * @param {*} id  三级分类id
+ * @param {*} sel  [only,many]  通过 only 或 many 来获取分类静态参数还是动态参数
+ * @returns
+ */
+export const getCateAttributes = ({ ...data }) => {
+  let { id, sel } = data
+  return awaitWrap(
+    request({
+      url: `categories/${id}/attributes`,
+      method: 'get',
+      params: { sel }
+    })
+  )
+}
