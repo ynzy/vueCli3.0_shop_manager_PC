@@ -36,7 +36,7 @@
         </el-tab-pane>
       </el-tabs>
     </el-card>
-    <editParamsDialogVue :dialog="editDialog" />
+    <editParamsDialogVue :dialog="editDialog" :editForm="editForm" />
   </div>
 </template>
 
@@ -81,6 +81,9 @@ export default {
       editDialog: {
         dialogVisible: false,
         type: 'many' // many 动态参数 only 静态属性
+      },
+      editForm: {
+        attr_name: ''
       }
     }
   },
@@ -95,7 +98,7 @@ export default {
   methods: {
     // tab 页签点击事件的处理函数
     handleTabClick() {
-      this.editDialog.dialogVisible = this.options.type
+      this.editDialog.type = this.options.type
       this.getCateAttr()
     },
     // 级联选择框中项变化，会触发这个函数

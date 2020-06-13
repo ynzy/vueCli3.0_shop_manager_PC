@@ -2,11 +2,16 @@
 <template>
   <div>
     <el-dialog
-      :title="titleText"
+      :title="'添加' + titleText"
       :visible.sync="dialog.dialogVisible"
       @close="handleClose"
       width="50%"
     >
+      <el-form ref="editForm" :model="editForm" :rules="editFormRules" label-width="80px">
+        <el-form-item :label="titleText" prop="attr_name">
+          <el-input v-model="editForm.attr_name"></el-input>
+        </el-form-item>
+      </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialog.dialogVisible = false">取 消</el-button>
         <el-button type="primary">确 定</el-button>
@@ -31,10 +36,22 @@ export default {
           type: 'many' // many 动态参数 only 静态属性
         }
       }
+    },
+    editForm: {
+      type: Object,
+      default: function() {
+        return {
+          attr_name: ''
+        }
+      }
     }
   },
   data() {
-    return {}
+    return {
+      editFormRules: {
+        attr_name: [{ required: true, message: '请输入参数名称', trigger: 'blur' }]
+      }
+    }
   },
   computed: {
     titleText() {
@@ -42,7 +59,9 @@ export default {
     }
   },
   methods: {
-    handleClose() {}
+    handleClose() {
+      this.$refs.editForm.resetFields()
+    }
   },
   created() {
     //NOTE: 使用bus监听事件
