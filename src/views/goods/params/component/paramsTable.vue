@@ -2,7 +2,12 @@
 <template>
   <div>
     <!-- 操作按钮 -->
-    <el-button :disabled="options.isBtnDisabled" type="primary" size="mini" @click="handleBtn">
+    <el-button
+      :disabled="options.isBtnDisabled"
+      type="primary"
+      size="mini"
+      @click="showEditDialog('add')"
+    >
       {{ btnText }}
     </el-button>
     <!-- 动态表格参数 -->
@@ -13,7 +18,13 @@
       <el-table-column :label="labelOne" prop="attr_name"></el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
-          <el-button size="mini" type="primary" icon="el-icon-edit">编辑</el-button>
+          <el-button
+            size="mini"
+            type="primary"
+            icon="el-icon-edit"
+            @click="showEditDialog('edit', scope.row)"
+            >编辑</el-button
+          >
           <el-button size="mini" type="danger" icon="el-icon-delete">删除</el-button>
         </template>
       </el-table-column>
@@ -52,12 +63,23 @@ export default {
     }
   },
   methods: {
-    handleBtn() {
+    showEditDialog(handleType, val) {
+      let showData = {
+        dialogVisible: true,
+        handleType
+      }
+      if (val) {
+        showData = Object.assign(showData, {
+          attr_name: val.attr_name,
+          attrId: val.attr_id
+        })
+      }
+      console.log(showData)
       //NOTE: 使用bus发送事件
       //* 使用局部bus
       // Bus.$emit('showParamsDialog', true)
       //* 使用全局bus
-      this.$root.Bus.$emit('showParamsDialog', true)
+      this.$root.Bus.$emit('showParamsDialog', showData)
     }
   },
   mounted() {},

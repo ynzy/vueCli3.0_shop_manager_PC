@@ -2,7 +2,7 @@
 <template>
   <div>
     <el-dialog
-      :title="'添加' + titleText"
+      :title="handleText + titleText"
       :visible.sync="dialog.dialogVisible"
       @close="handleClose"
       width="50%"
@@ -33,7 +33,8 @@ export default {
       default: function(value) {
         return {
           dialogVisible: false,
-          type: 'many' // many 动态参数 only 静态属性
+          type: 'many', // many 动态参数 only 静态属性
+          handleType: 'add'
         }
       }
     },
@@ -56,6 +57,9 @@ export default {
   computed: {
     titleText() {
       return DescText[this.dialog.type]
+    },
+    handleText() {
+      return this.dialog.handleType == 'add' ? '添加' : '修改'
     }
   },
   methods: {
@@ -72,9 +76,11 @@ export default {
   created() {
     //NOTE: 使用bus监听事件
     // Bus.$on('showParamsDialog', val => {})
-    this.$root.Bus.$on('showParamsDialog', val => {
-      console.log(val)
-      this.dialog.dialogVisible = val
+    this.$root.Bus.$on('showParamsDialog', item => {
+      this.dialog.dialogVisible = item.dialogVisible
+      this.dialog.handleType = item.handleType
+      this.editForm.attr_name = item.attr_name
+      this.editForm.attrId = item.attrId
     })
   },
   mounted() {},

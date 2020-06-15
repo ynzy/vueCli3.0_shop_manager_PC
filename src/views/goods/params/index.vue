@@ -46,7 +46,12 @@
 
 <script>
 import crumbs from '@/components/crumbs/index.vue'
-import { getCategories, getCateAttributes, updateCateAttributes } from '../../../api/goods'
+import {
+  getCategories,
+  getCateAttributes,
+  addCateAttributes,
+  updateCateAttributes
+} from '../../../api/goods'
 import paramsTableVue from './component/paramsTable.vue'
 import editParamsDialogVue from './component/editParamsDialog.vue'
 
@@ -84,7 +89,8 @@ export default {
       paramsTableData: [],
       editDialog: {
         dialogVisible: false,
-        type: 'many' // many 动态参数 only 静态属性
+        type: 'many', // many 动态参数 only 静态属性
+        handleType: 'add'
       },
       editForm: {
         attr_name: ''
@@ -101,19 +107,41 @@ export default {
     }
   },
   methods: {
-    async handleEditConfirm(val) {
+    handleEditConfirm(val) {
       let params = {
         id: this.cateId,
         attr_name: val.attr_name,
         attr_sel: this.editDialog.type
       }
-      console.log(params)
+      if (val.attrId) {
+        params = Object.assign(params, {
+          attrId: val.attrId
+        })
+        this.handleEditForm(params)
+        return
+      }
+      this.handleAddForm(params)
+    },
+    // 修改参数
+    async handleEditForm(params) {
       let [err, res] = await updateCateAttributes(params)
       if (err) {
         console.log(err)
         return this.$message.error(err.meta.msg || '保存失败')
       }
-      console.log(res)
+      // console.log(res)
+      this.$message.success(res.meta.msg || '保存成功')
+      this.editDialog.dialogVisible = false
+      this.getCateAttr()
+    },
+    // 添加参数
+    async handleAddForm(params) {
+      let [err, res] = await addCateAttributes(params)
+      if (err) {
+        console.log(err)
+        return this.$message.error(err.meta.msg || '保存失败')
+      }
+      // console.log(res)
       this.$message.success(res.meta.msg || '保存成功')
       this.editDialog.dialogVisible = false
       this.getCateAttr()
