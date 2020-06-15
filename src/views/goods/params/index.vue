@@ -36,13 +36,17 @@
         </el-tab-pane>
       </el-tabs>
     </el-card>
-    <editParamsDialogVue :dialog="editDialog" :editForm="editForm" />
+    <editParamsDialogVue
+      :dialog="editDialog"
+      :editForm="editForm"
+      @handleConfirm="handleEditConfirm"
+    />
   </div>
 </template>
 
 <script>
 import crumbs from '@/components/crumbs/index.vue'
-import { getCategories, getCateAttributes } from '../../../api/goods'
+import { getCategories, getCateAttributes, updateCateAttributes } from '../../../api/goods'
 import paramsTableVue from './component/paramsTable.vue'
 import editParamsDialogVue from './component/editParamsDialog.vue'
 
@@ -88,6 +92,7 @@ export default {
     }
   },
   computed: {
+    // 分类id
     cateId() {
       if (this.selectedKeys.length === 3) {
         return this.selectedKeys[2]
@@ -96,6 +101,23 @@ export default {
     }
   },
   methods: {
+    async handleEditConfirm(val) {
+      let params = {
+        id: this.cateId,
+        attr_name: val.attr_name,
+        attr_sel: this.editDialog.type
+      }
+      console.log(params)
+      let [err, res] = await updateCateAttributes(params)
+      if (err) {
+        console.log(err)
+        return this.$message.error(err.meta.msg || '保存失败')
+      }
+      console.log(res)
+      this.$message.success(res.meta.msg || '保存成功')
+      this.editDialog.dialogVisible = false
+      this.getCateAttr()
+    },
     // tab 页签点击事件的处理函数
     handleTabClick() {
       this.editDialog.type = this.options.type

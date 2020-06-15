@@ -14,7 +14,7 @@
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialog.dialogVisible = false">取 消</el-button>
-        <el-button type="primary">确 定</el-button>
+        <el-button type="primary" @click="handleConfirm">确 定</el-button>
       </span>
     </el-dialog>
   </div>
@@ -59,6 +59,12 @@ export default {
     }
   },
   methods: {
+    handleConfirm() {
+      this.$refs.editForm.validate(valid => {
+        if (!valid) return
+        this.$emit('handleConfirm', this.editForm)
+      })
+    },
     handleClose() {
       this.$refs.editForm.resetFields()
     }
