@@ -117,7 +117,12 @@ export default {
   },
   methods: {
     async handleTableDelete(val) {
-      console.log(val)
+      const confirmResult = await this.$confirm('此操作将永久删除该参数, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).catch(err => err)
+      if (confirmResult != 'confirm') return this.$message.info('取消了删除')
       let [err, res] = await deleteCateAttributes({ id: this.cateId, attrId: val.attrId })
       if (err) {
         console.log(err)
