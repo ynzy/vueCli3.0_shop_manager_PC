@@ -172,3 +172,20 @@ export const putCateAttributes = ({ ...data }) => {
     })
   )
 }
+
+/**
+ * 获取商品列表数据
+ * @param {*} query  查询参数
+ * @param {*} pagenum  当前页码
+ * @param {*} pagesize  每页显示条数
+ * @returns
+ */
+export const queryGoodsList = ({ ...params }) => {
+  return awaitWrap(
+    request({
+      url: `goods`,
+      method: 'get',
+      params
+    })
+  )
+}
