@@ -136,3 +136,19 @@ export const updateCateAttributes = ({ ...data }) => {
     })
   )
 }
+
+/**
+ * 删除分类参数
+ * @param {*} id  分类id
+ * @param {*} attrId  属性 ID
+ * @returns
+ */
+export const deleteCateAttributes = ({ ...data }) => {
+  let { id, attrId } = data
+  return awaitWrap(
+    request({
+      url: `categories/${id}/attributes/${attrId}`,
+      method: 'delete'
+    })
+  )
+}

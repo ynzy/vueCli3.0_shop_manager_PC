@@ -25,7 +25,13 @@
             @click="showEditDialog('edit', scope.row)"
             >编辑</el-button
           >
-          <el-button size="mini" type="danger" icon="el-icon-delete">删除</el-button>
+          <el-button
+            size="mini"
+            type="danger"
+            icon="el-icon-delete"
+            @click="handleDelete(scope.row)"
+            >删除</el-button
+          >
         </template>
       </el-table-column>
     </el-table>
@@ -63,6 +69,9 @@ export default {
     }
   },
   methods: {
+    handleDelete(val) {
+      this.$emit('handleDelete', { attrId: val.attr_id })
+    },
     showEditDialog(handleType, val) {
       let showData = {
         dialogVisible: true,

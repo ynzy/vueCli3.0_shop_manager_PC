@@ -29,10 +29,18 @@
       <!-- tab 页签区域 -->
       <el-tabs v-model="options.type" @tab-click="handleTabClick">
         <el-tab-pane label="动态参数" name="many">
-          <paramsTableVue :options="options" :paramsTable="paramsTableData" />
+          <paramsTableVue
+            :options="options"
+            :paramsTable="paramsTableData"
+            @handleDelete="handleTableDelete"
+          />
         </el-tab-pane>
         <el-tab-pane label="静态属性" name="only">
-          <paramsTableVue :options="options" :paramsTable="paramsTableData" />
+          <paramsTableVue
+            :options="options"
+            :paramsTable="paramsTableData"
+            @handleDelete="handleTableDelete"
+          />
         </el-tab-pane>
       </el-tabs>
     </el-card>
@@ -50,7 +58,8 @@ import {
   getCategories,
   getCateAttributes,
   addCateAttributes,
-  updateCateAttributes
+  updateCateAttributes,
+  deleteCateAttributes
 } from '../../../api/goods'
 import paramsTableVue from './component/paramsTable.vue'
 import editParamsDialogVue from './component/editParamsDialog.vue'
@@ -107,6 +116,18 @@ export default {
     }
   },
   methods: {
+    async handleTableDelete(val) {
+      console.log(val)
+      let [err, res] = await deleteCateAttributes({ id: this.cateId, attrId: val.attrId })
+      if (err) {
+        console.log(err)
+        return this.$message.error(err.meta.msg || '删除失败')
+      }
+      console.log(res)
+      this.$message.success(res.meta.msg || '删除成功')
+      this.getCateAttr()
+    },
+    // 确认修改
     handleEditConfirm(val) {
       let params = {
         id: this.cateId,
