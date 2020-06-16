@@ -93,7 +93,8 @@ export default {
       // 被激活的页签的名称
       options: {
         type: 'many',
-        isBtnDisabled: true
+        isBtnDisabled: true,
+        cateId: null //分类id
       },
       paramsTableData: [],
       editDialog: {
@@ -110,6 +111,7 @@ export default {
     // 分类id
     cateId() {
       if (this.selectedKeys.length === 3) {
+        this.options.cateId = this.selectedKeys[2]
         return this.selectedKeys[2]
       }
       return null
@@ -182,6 +184,7 @@ export default {
       // 如果长度不等于3则不是选择的第三级分类
       if (this.selectedKeys.length != 3) {
         this.selectedKeys = []
+        this.paramsTableData = []
         this.options.isBtnDisabled = true
         return
       }
@@ -192,8 +195,6 @@ export default {
     },
     // 根据所选分类的Id，和当前所处的面板，获取对应的参数
     async getCateAttr() {
-      console.log(this.options.type)
-
       let id = Number(this.cateId)
       let sel = this.options.type
       let [err, res] = await getCateAttributes({ id, sel })
@@ -202,6 +203,17 @@ export default {
         return this.$message.error(err.meta.msg || '获取参数列表失败')
       }
       this.$message.success(res.meta.msg || '获取成功')
+      res.data.forEach(item => {
+        //* ''.split(',') -> [""]
+        //* split分隔空字符串之后会出现空字符， 三元运算符防止数据渲染时出现空字符
+        item.attr_vals = item.attr_vals ? item.attr_vals.split(',') : []
+        // 添加 控制文本框的显示与隐藏
+        item.inputVisible = false
+        // 添加 文本框中输入的值
+        item.inputValue = ''
+      })
+      console.log(res.data)
+
       this.paramsTableData = res.data
     },
     async getParentCateList() {

@@ -152,3 +152,23 @@ export const deleteCateAttributes = ({ ...data }) => {
     })
   )
 }
+
+/**
+ * 编辑提交参数
+ * @param {*} id  分类id
+ * @param {*} attrId  属性 ID
+ * @param {*} attr_name  新属性的名字
+ * @param {*} attr_sel  [only,many]  通过 only 或 many 来获取分类静态参数还是动态参数
+ * @param {可选} attr_vals  如果是 many 就需要填写值的选项，以逗号分隔
+ * @returns
+ */
+export const putCateAttributes = ({ ...data }) => {
+  let { id, attrId, ...newData } = data
+  return awaitWrap(
+    request({
+      url: `categories/${id}/attributes/${attrId}`,
+      method: 'put',
+      data: newData
+    })
+  )
+}
