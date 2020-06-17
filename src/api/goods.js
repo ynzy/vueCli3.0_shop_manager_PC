@@ -19,7 +19,7 @@ export const getCategories = ({ ...params }) => {
 }
 
 /**
- * 商品分类数据列表
+ * 添加商品分类数据列表
  * @param {不能为空} cat_pid  分类父ID  如果要添加1级分类，则父分类Id应该设置为  0
  * @param {不能为空} cat_name 分类名称
  * @param {不能为空} cat_level 分类层级  0表示一级分类；1表示二级分类；2表示三级分类
@@ -36,7 +36,7 @@ export const addCategories = ({ ...data }) => {
 }
 
 /**
- * 商品分类数据列表
+ * 获取商品分类信息
  * @param {*} id  分类id
  * @returns
  */
@@ -82,9 +82,9 @@ export const deleteCategoriesInfo = ({ ...data }) => {
 }
 
 /**
- * 获取分类参数
+ * 获取参数列表
  * @param {*} id  三级分类id
- * @param {*} sel  [only,many]  通过 only 或 many 来获取分类静态参数还是动态参数
+ * @param {*} sel  [only,many]  静态参数,动态参数
  * @returns
  */
 export const getCateAttributes = ({ ...data }) => {
@@ -186,6 +186,20 @@ export const queryGoodsList = ({ ...params }) => {
       url: `goods`,
       method: 'get',
       params
+    })
+  )
+}
+
+/**
+ * 获取商品列表数据
+ * @param {*} id  商品id
+ * @returns
+ */
+export const deleteGoods = ({ ...data }) => {
+  return awaitWrap(
+    request({
+      url: `goods/${data.id}`,
+      method: 'delete'
     })
   )
 }

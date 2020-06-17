@@ -29,5 +29,11 @@ yarn lint
 See [Configuration Reference](https://cli.vuejs.org/config/).
 
 - 管理员账户
+
   - username: 'admin'
   - password: '123456'
+
+* power/roles
+  - 添加、编辑、删除操作需要做
+* goods/list
+  - 编辑操作需要做

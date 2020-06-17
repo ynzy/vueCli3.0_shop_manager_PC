@@ -7,12 +7,17 @@
     <el-card>
       <el-row :gutter="20">
         <el-col :span="8">
-          <el-input placeholder="请输入内容">
-            <el-button slot="append" icon="el-icon-search"></el-button>
+          <el-input
+            placeholder="请输入内容"
+            v-model="queryInfo.query"
+            clearable
+            @clear="getGoodsList"
+          >
+            <el-button slot="append" icon="el-icon-search" @click="getGoodsList"></el-button>
           </el-input>
         </el-col>
         <el-col :span="4">
-          <el-button type="primary">添加商品</el-button>
+          <el-button type="primary" @click="goEditpage('add')">添加商品</el-button>
         </el-col>
       </el-row>
       <!-- table表格区域 -->
@@ -57,7 +62,7 @@
 
 <script>
 import crumbs from '@/components/crumbs/index.vue'
-import { queryGoodsList } from '../../../api/goods'
+import { queryGoodsList, deleteGoods } from '../../../api/goods'
 export default {
   data() {
     return {
@@ -84,6 +89,30 @@ export default {
     }
   },
   methods: {
+    // 添加编辑商品
+    goEditpage(type) {
+      this.$router.push(`/goods/add`)
+    },
+    // 删除商品
+    async removeById(id) {
+      const confirmResult = await this.$confirm('此操作将永久删除该商品, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).catch(err => err)
+
+      if (confirmResult !== 'confirm') {
+        return this.$message.info('已经取消删除！')
+      }
+      let [err, res] = await deleteGoods({ id })
+      if (err) {
+        console.log(err)
+        return this.$message.error(err.meta.msg || '删除失败')
+      }
+      this.$message.success(res.meta.msg || '删除成功')
+      // console.log(res)
+      this.getGoodsList()
+    },
     // 获取分页商品列表
     async getGoodsList() {
       let [err, res] = await queryGoodsList(this.queryInfo)
@@ -92,7 +121,7 @@ export default {
         return this.$message.error(err.meta.msg || '获取失败')
       }
       console.log(res)
-      this.$message.success(res.meta.msg || '获取成功')
+      // this.$message.success(res.meta.msg || '获取成功')
       this.goodsList = res.data.goods
       this.total = res.data.total
     },

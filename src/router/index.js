@@ -49,7 +49,12 @@ const routes = [
       {
         path: '/goods',
         name: 'goods',
-        component: () => import('@/views/goods/list/index.vue') // 分类参数
+        component: () => import('@/views/goods/list/index.vue') // 商品列表
+      },
+      {
+        path: '/goods/add',
+        name: 'goodsAdd',
+        component: () => import('@/views/goods/add/index.vue') // 添加编辑商品
       },
       {
         path: '/richText',
