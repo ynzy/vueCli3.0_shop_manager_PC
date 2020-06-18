@@ -76,7 +76,12 @@
               </el-checkbox-group>
             </el-form-item>
           </el-tab-pane>
-          <el-tab-pane label="商品属性" name="2">商品属性</el-tab-pane>
+          <el-tab-pane label="商品属性" name="2">
+            <!-- 渲染表单的item项 -->
+            <el-form-item :label="item.attr_name" v-for="item in onlyTableData" :key="item.attr_id">
+              <el-input v-model="item.attr_vals"></el-input>
+            </el-form-item>
+          </el-tab-pane>
           <el-tab-pane label="商品图片" name="3">商品图片</el-tab-pane>
           <el-tab-pane label="商品内容" name="4">商品内容</el-tab-pane>
         </el-tabs>
@@ -110,7 +115,7 @@ export default {
         goods_price: '', // 价格
         goods_weight: '', // 重量
         goods_number: '', // 数量
-        goods_cat: [], // 以为','分割的分类列表
+        goods_cat: [1, 3, 6], // 以为','分割的分类列表
         pics: '', // 介绍
         attrs: '', // 上传的图片临时路径（对象）
         goods_introduce: '' // 商品的参数（数组），包含 动态参数 和 静态属性
