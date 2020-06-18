@@ -82,17 +82,32 @@
               <el-input v-model="item.attr_vals"></el-input>
             </el-form-item>
           </el-tab-pane>
-          <el-tab-pane label="商品图片" name="3">商品图片</el-tab-pane>
+          <el-tab-pane label="商品图片" name="3">
+            <el-upload
+              action=""
+              :http-request="uploadSectionFile"
+              :on-preview="handlePreview"
+              :on-remove="handleRemove"
+              list-type="picture"
+            >
+              <el-button size="small" type="primary">点击上传</el-button>
+            </el-upload>
+          </el-tab-pane>
           <el-tab-pane label="商品内容" name="4">商品内容</el-tab-pane>
         </el-tabs>
       </el-form>
     </el-card>
+    <!-- 图片预览 -->
+    <el-dialog title="图片预览" :visible.sync="previewVisible" width="50%">
+      <img :src="previewPath" alt="" style="width:100%;height:100%" />
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import crumbs from '@/components/crumbs/index.vue'
 import { getCategories, getCateAttributes } from '../../../api/goods'
+import { uploadImg } from '@/api/upload'
 export default {
   data() {
     return {
@@ -108,7 +123,7 @@ export default {
           path: 'users'
         }
       ],
-      activeIndex: '0',
+      activeIndex: '3',
       // 商品表单数据对象
       editForm: {
         goods_name: '', // 商品名称
@@ -116,9 +131,9 @@ export default {
         goods_weight: '', // 重量
         goods_number: '', // 数量
         goods_cat: [1, 3, 6], // 以为','分割的分类列表
-        pics: '', // 介绍
-        attrs: '', // 上传的图片临时路径（对象）
-        goods_introduce: '' // 商品的参数（数组），包含 动态参数 和 静态属性
+        pics: [], // 上传的图片临时路径（对象）
+        attrs: [], // 商品的参数（数组），包含 动态参数 和 静态属性
+        goods_introduce: '' // 介绍
       },
       // 表单校验规则
       editFormRules: {
@@ -140,7 +155,9 @@ export default {
       // 动态参数列表数据
       manyTableData: [],
       // 静态参数列表数据
-      onlyTableData: []
+      onlyTableData: [],
+      previewPath: '', // 预览路径
+      previewVisible: false //预览弹框
     }
   },
   computed: {
@@ -153,6 +170,54 @@ export default {
     }
   },
   methods: {
+    // 覆盖默认的上传行为，自定义图片上传请求
+    async uploadSectionFile(params) {
+      //* 1. 图片处理
+      const { file } = params
+      const fileType = file.type //获取文件类型
+      const isImage = fileType.indexOf('image') != -1 // 判断是否是图片类型
+      const isLt2M = file.size / 1024 / 1024 < 2
+      if (!isLt2M) {
+        // 判断大小
+        this.$message.error('上传图片的大小不能超过 2MB!')
+        return Promise.reject()
+      }
+      if (!isImage) {
+        // 文件格式
+        this.$message.error('请选择图片文件！')
+        return Promise.reject()
+      }
+      //* 2. 图片上传
+      const fromData = new FormData()
+      fromData.append('file', file)
+      const [err, res] = await uploadImg(fromData)
+      if (err) {
+        console.log(err)
+        return this.$message.error(err.meta.msg || '上传失败')
+      }
+      // console.log(res)
+      this.$message.success(res.meta.msg || '上传成功')
+      // 1. 拼接得到一个图片信息对象
+      const pic = res.data.tmp_path
+      // 2. 将图片信息对象，push到pics数组中
+      this.editForm.pics.push({ pic })
+      //* 3. 返回数据可以在组件on事件的response中捕获,比如：on-remove
+      return res.data //
+    },
+    // 处理图片预览效果
+    handlePreview(file) {
+      this.previewPath = file.response.url
+      this.previewVisible = true
+    },
+    // 处理移除图片的操作
+    handleRemove(file) {
+      //* 1. 获取将要删除的图片的临时路径
+      const { tmp_path } = file.response
+      //* 2. 从 pics 数组中，找到这个图片对应的索引值
+      const i = this.editForm.pics.findIndex(item => item.pic == tmp_path)
+      //* 3. 调用数组的splice方法，把图片信息对象，从pics数组中移除
+      this.editForm.pics.splice(i, 1)
+    },
     // 切换标签页之前的钩子
     beforeTabLeave(activeName, oldActiveName) {
       // console.log('即将离开的标签页名字是：' + oldActiveName)

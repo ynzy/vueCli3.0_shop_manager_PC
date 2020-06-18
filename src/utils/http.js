@@ -12,7 +12,8 @@ const service = axios.create({
 // http请求拦截器
 service.interceptors.request.use(
   config => {
-    config.headers.Authorization = sessionStorage.get('token')
+    config.headers['Authorization'] = sessionStorage.get('token')
+    config.contentType && (config.headers['Content-Type'] = config.contentType)
     return config
   },
   error => {
