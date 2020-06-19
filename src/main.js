@@ -2,7 +2,7 @@
  * @Author: zhang
  * @Date: 2020-05-16 18:24:01
  * @Last Modified by: yong
- * @Last Modified time: 2020-06-16 19:05:52
+ * @Last Modified time: 2020-06-19 09:17:01
  */
 
 import Vue from 'vue'
@@ -15,9 +15,16 @@ import '@/assets/css/reset.css' // 清除默认样式
 import '@/assets/css/global.css' // 全局样式表
 import '@/assets/fonts/iconfont.css' // 导入阿里图标
 
-import VueParticles from 'vue-particles'
-import particles from 'particles.js'
-import TreeTable from 'vue-table-with-tree-grid'
+import VueParticles from 'vue-particles' //vue-背景粒子插件
+import particles from 'particles.js' // 背景粒子插件
+import TreeTable from 'vue-table-with-tree-grid' //表格扩展
+import VueQuillEditor from 'vue-quill-editor' //富文本编辑器
+// 富文本样式
+import 'quill/dist/quill.core.css' // import styles
+import 'quill/dist/quill.snow.css' // for snow theme
+import 'quill/dist/quill.bubble.css' // for bubble theme
+
+Vue.use(VueQuillEditor /* { default global options } */)
 Vue.use(VueParticles)
 Vue.use(particles)
 Vue.component('tree-table', TreeTable)

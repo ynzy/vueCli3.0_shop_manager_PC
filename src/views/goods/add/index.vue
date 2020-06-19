@@ -93,7 +93,12 @@
               <el-button size="small" type="primary">点击上传</el-button>
             </el-upload>
           </el-tab-pane>
-          <el-tab-pane label="商品内容" name="4">商品内容</el-tab-pane>
+          <el-tab-pane label="商品内容" name="4">
+            <!-- 富文本编辑器组件 -->
+            <quill-editor ref="myQuillEditor" v-model="editForm.goods_introduce" />
+            <!-- 添加商品的按钮 -->
+            <el-button type="primary" class="btnEdit" @click="handleSaveForm">添加商品</el-button>
+          </el-tab-pane>
         </el-tabs>
       </el-form>
     </el-card>
@@ -106,8 +111,9 @@
 
 <script>
 import crumbs from '@/components/crumbs/index.vue'
-import { getCategories, getCateAttributes } from '../../../api/goods'
+import { getCategories, getCateAttributes, addGoods } from '../../../api/goods'
 import { uploadImg } from '@/api/upload'
+import _ from 'lodash' // 引入lodash
 export default {
   data() {
     return {
@@ -123,17 +129,17 @@ export default {
           path: 'users'
         }
       ],
-      activeIndex: '3',
+      activeIndex: '0', //竖向tab栏切换
       // 商品表单数据对象
       editForm: {
         goods_name: '', // 商品名称
         goods_price: '', // 价格
         goods_weight: '', // 重量
         goods_number: '', // 数量
-        goods_cat: [1, 3, 6], // 以为','分割的分类列表
+        goods_cat: [], // 以为','分割的分类列表
         pics: [], // 上传的图片临时路径（对象）
         attrs: [], // 商品的参数（数组），包含 动态参数 和 静态属性
-        goods_introduce: '' // 介绍
+        goods_introduce: '' // 商品描述
       },
       // 表单校验规则
       editFormRules: {
@@ -170,6 +176,45 @@ export default {
     }
   },
   methods: {
+    handleSaveForm() {
+      this.$refs.editFormRef.validate(valid => {
+        if (!valid) return this.$message.error('请填写必要的表单项')
+        //! 1. 处理动态参数
+        this.manyTableData.forEach(item => {
+          const newInfo = {
+            attr_id: item.attr_id,
+            attr_value: item.attr_vals.join(',')
+          }
+          this.editForm.attrs.push(newInfo)
+        })
+        //! 2. 处理静态参数
+        this.onlyTableData.forEach(item => {
+          const newInfo = {
+            attr_id: item.attr_id,
+            attr_value: item.attr_vals
+          }
+          this.editForm.attrs.push(newInfo)
+        })
+        //! 3. 处理goods_cat
+        // * 级联选择器使用的是数组，不可以这样做
+        // this.editForm.goods_cat = this.editForm.goods_cat.join(',')
+        //* 深拷贝 lodash   cloneDeep(obj)
+        const form = _.cloneDeep(this.editForm)
+        form.goods_cat = form.goods_cat.join(',')
+        console.log(form)
+        this.handleAddGoods(form)
+      })
+    },
+    async handleAddGoods(form) {
+      let [err, res] = await addGoods(form)
+      if (err) {
+        console.log(err)
+        return this.$message.error(err.meta.msg || '添加失败')
+      }
+      console.log(res)
+      this.$message.success(res.meta.msg || '添加成功')
+      this.$router.push('/goods')
+    },
     // 覆盖默认的上传行为，自定义图片上传请求
     async uploadSectionFile(params) {
       //* 1. 图片处理
@@ -308,5 +353,8 @@ export default {
 }
 .el-checkbox {
   margin: 0 10px 0 0 !important;
+}
+.btnEdit {
+  margin-top: 15px;
 }
 </style>

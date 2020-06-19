@@ -203,3 +203,25 @@ export const deleteGoods = ({ ...data }) => {
     })
   )
 }
+
+/**
+ * 添加商品
+ * @param {*} goods_name  商品名称
+ * @param {*} goods_cat  以为','分割的分类列表
+ * @param {*} goods_price  价格
+ * @param {*} goods_number  数量
+ * @param {*} goods_weight  重量
+ * @param {*} goods_introduce  介绍
+ * @param {*} pics  上传的图片临时路径（对象）
+ * @param {*} attrs 商品的参数（数组），包含 动态参数 和 静态属性
+ * @returns
+ */
+export const addGoods = ({ ...data }) => {
+  return awaitWrap(
+    request({
+      url: `goods`,
+      method: 'post',
+      data
+    })
+  )
+}
