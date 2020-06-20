@@ -57,6 +57,11 @@ const routes = [
         component: () => import('@/views/goods/add/index.vue') // 添加编辑商品
       },
       {
+        path: '/orders',
+        name: 'order',
+        component: () => import('@/views/order/order/index.vue') // 订单列表
+      },
+      {
         path: '/richText',
         name: 'richText',
         component: () => import('@/views/richText/index.vue') // 富文本
