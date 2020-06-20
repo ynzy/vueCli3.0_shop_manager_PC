@@ -14,13 +14,13 @@
       :default-active="activePath"
     >
       <!-- 一级菜单 -->
-      <el-submenu :index="item.id + ''" v-for="item in menulist" :key="item.id">
-        <!-- 一级菜单区域 -->
+      <!-- <el-submenu :index="item.id + ''" v-for="item in menulist" :key="item.id">
+         一级菜单区域 
         <template slot="title">
           <i :class="iconsObj[item.id]"></i>
           <span>{{ item.authName }}</span>
         </template>
-        <!-- 二级菜单 -->
+         二级菜单
         <el-menu-item
           :index="`/${subItem.path}`"
           v-for="subItem in item.children"
@@ -32,15 +32,13 @@
             <span>{{ subItem.authName }}</span>
           </template>
         </el-menu-item>
-      </el-submenu>
+      </el-submenu> -->
       <!-- 一级菜单 -->
-      <el-submenu :index="item.id + ''" v-for="item in menulist2" :key="item.id">
-        <!-- 一级菜单区域 -->
+      <!--  <el-submenu :index="item.id + ''" v-for="item in menulist2" :key="item.id">
         <template slot="title">
           <i :class="iconsObj[item.id]"></i>
           <span>{{ item.authName }}</span>
         </template>
-        <!-- 二级菜单 -->
         <el-menu-item
           :index="`/${subItem.path}`"
           v-for="subItem in item.children"
@@ -52,13 +50,16 @@
             <span>{{ subItem.authName }}</span>
           </template>
         </el-menu-item>
-      </el-submenu>
+      </el-submenu> -->
+      <SidebarItem v-for="item in menulist" :item="item" :key="item.path" />
+      <SidebarItem v-for="item in menulist2" :item="item" :key="item.path" />
     </el-menu>
   </el-aside>
 </template>
 
 <script>
 import { getMenus } from '@/api/auth'
+import SidebarItem from './SidebarItem'
 export default {
   name: 'vAside',
   data() {
@@ -69,8 +70,15 @@ export default {
         {
           id: 437,
           authName: '其他功能',
-          path: 'users',
+          path: 'orther',
           children: [{ id: 438, authName: '富文本', path: 'richText', children: [], order: null }],
+          order: 1
+        },
+        {
+          id: 438,
+          authName: '更多功能',
+          path: 'more',
+          children: [],
           order: 1
         }
       ],
@@ -80,7 +88,8 @@ export default {
         '101': 'iconfont icon-shangpin',
         '102': 'iconfont icon-danju',
         '145': 'iconfont icon-baobiao',
-        '437': 'iconfont icon-baobiao'
+        '437': 'iconfont icon-baobiao',
+        '438': 'iconfont icon-baobiao'
       },
       // 被激活的链接地址
       activePath: ''
@@ -110,7 +119,9 @@ export default {
       this.menulist = res.data
     }
   },
-  components: {}
+  components: {
+    SidebarItem
+  }
 }
 </script>
 <style lang="less" scoped>

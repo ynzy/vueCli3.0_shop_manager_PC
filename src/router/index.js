@@ -1,6 +1,13 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import { sessionStorage } from '@/utils/storage'
+//引入nprogress
+import NProgress from 'nprogress'
+import 'nprogress/nprogress.css' //这个样式必须引入
+
+// 简单配置
+NProgress.inc(0.2)
+NProgress.configure({ easing: 'ease', speed: 500, showSpinner: false })
 
 Vue.use(VueRouter)
 
@@ -70,6 +77,11 @@ const routes = [
         path: '/richText',
         name: 'richText',
         component: () => import('@/views/richText/index.vue') // 富文本
+      },
+      {
+        path: '/more',
+        name: 'more',
+        component: () => import('@/views/more/index.vue') // 更多
       }
     ]
   },
@@ -95,11 +107,15 @@ router.beforeEach((to, from, next) => {
   // from 代表从哪个路径跳转而来
   // next 是一个函数，表示放行
   // next()  放行    next('/login')  强制跳转
-
+  NProgress.start()
   if (to.path === '/login') return next()
   // 获取token
   const token = sessionStorage.get('token')
   // if (!token) return next('/login')
   next()
 })
+router.afterEach(() => {
+  NProgress.done()
+})
+
 export default router

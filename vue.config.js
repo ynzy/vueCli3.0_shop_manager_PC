@@ -11,6 +11,9 @@ module.exports = {
       .set('@', resolve('./src'))
     // 注意 store 和 router 没必要配置
   },
+  css: {
+    extract: false
+  },
   devServer: {
     open: true, // 是否自动弹出浏览器页面
     // host: 'localhost',

@@ -1,7 +1,14 @@
 import axios from 'axios'
 import { storage, sessionStorage } from '@/utils/storage'
 import { Message } from 'element-ui'
+//引入nprogress
+import NProgress from 'nprogress'
+import 'nprogress/nprogress.css'
+
 import router from '../router/index'
+
+NProgress.inc(0.2)
+NProgress.configure({ easing: 'ease', speed: 500, showSpinner: false })
 
 const service = axios.create({
   baseURL: process.env.VUE_APP_BASE_URL,
@@ -12,6 +19,7 @@ const service = axios.create({
 // http请求拦截器
 service.interceptors.request.use(
   config => {
+    // NProgress.start()
     config.headers['Authorization'] = sessionStorage.get('token')
     config.contentType && (config.headers['Content-Type'] = config.contentType)
     return config
@@ -35,6 +43,7 @@ const erorrMap = {
 // http响应拦截器
 service.interceptors.response.use(
   res => {
+    // NProgress.done()
     //可以根据后端的系统而相应的做调整
     let status = res.data.meta.status
     var statusArr = [200, 201, 204]

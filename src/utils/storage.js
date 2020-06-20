@@ -33,5 +33,3 @@ export const sessionStorage = {
     window.sessionStorage.removeItem(key)
   }
 }
-
-// 暴露给外部访问
