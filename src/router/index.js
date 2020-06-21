@@ -21,12 +21,13 @@ const routes = [
     path: '/home',
     name: 'home',
     redirect: '/welcome',
-    component: () => import('@/views/home/index.vue'), // 首页
+    component: () => import(/* webpackChunkName: "login_home_welcome" */ '@/views/home/index.vue'), // 首页
     children: [
       {
         path: '/welcome',
         name: 'welcome',
-        component: () => import('@/views/home/component/Welcome.vue') // 欢迎
+        component: () =>
+          import(/* webpackChunkName: "login_home_welcome" */ '@/views/home/component/Welcome.vue') // 欢迎
       },
       {
         path: '/users',

@@ -110,6 +110,8 @@ export default {
       console.log(res)
       this.rightsList = res.data
       this.role = role
+      console.log(role)
+
       this.setRightDialog.dialogVisible = true
     }
   },
