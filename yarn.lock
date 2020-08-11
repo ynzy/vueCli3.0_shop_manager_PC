@@ -370,14 +370,7 @@
   dependencies:
     "@babel/helper-plugin-utils" "^7.8.3"
 
-"@babel/plugin-syntax-dynamic-import@^7.8.0":
-  version "7.8.3"
-  resolved "https://registry.npm.taobao.org/@babel/plugin-syntax-dynamic-import/download/@babel/plugin-syntax-dynamic-import-7.8.3.tgz#62bf98b2da3cd21d626154fc96ee5b3cb68eacb3"
-  integrity sha1-Yr+Ysto80h1iYVT8lu5bPLaOrLM=
-  dependencies:
-    "@babel/helper-plugin-utils" "^7.8.0"
-
-"@babel/plugin-syntax-dynamic-import@^7.8.3":
+"@babel/plugin-syntax-dynamic-import@^7.8.0", "@babel/plugin-syntax-dynamic-import@^7.8.3":
   version "7.8.3"
   resolved "https://registry.npm.taobao.org/@babel/plugin-syntax-dynamic-import/download/@babel/plugin-syntax-dynamic-import-7.8.3.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40babel%2Fplugin-syntax-dynamic-import%2Fdownload%2F%40babel%2Fplugin-syntax-dynamic-import-7.8.3.tgz#62bf98b2da3cd21d626154fc96ee5b3cb68eacb3"
   integrity sha1-Yr+Ysto80h1iYVT8lu5bPLaOrLM=
@@ -7913,10 +7906,10 @@ timsort@^0.3.0:
   resolved "https://registry.npm.taobao.org/timsort/download/timsort-0.3.0.tgz#405411a8e7e6339fe64db9a234de11dc31e02bd4"
   integrity sha1-QFQRqOfmM5/mTbmiNN4R3DHgK9Q=
 
-tinymce@^5.3.0:
-  version "5.3.0"
-  resolved "https://registry.npm.taobao.org/tinymce/download/tinymce-5.3.0.tgz#5e239cadd37bde049d53bf13c3aa2185e1486b7f"
-  integrity sha1-XiOcrdN73gSdU78Tw6ohheFIa38=
+tinymce@^5.4.0:
+  version "5.4.0"
+  resolved "https://registry.yarnpkg.com/tinymce/-/tinymce-5.4.0.tgz#ae9c784fd36651d4d457be844a18fc138ca4f1f3"
+  integrity sha512-b3j+cUogfOtRt07Zc6iOrOAVosm4hekLtE85lmvjH7tPH7ncAIBv/cpdre9GdfeXSz7TVIJWASVvi4hkOTTh3A==
 
 tmp@^0.0.33:
   version "0.0.33"
