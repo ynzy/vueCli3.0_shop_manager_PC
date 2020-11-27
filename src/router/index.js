@@ -80,6 +80,11 @@ const routes = [
         component: () => import('@/views/richText/index.vue') // 富文本
       },
       {
+        path: '/wxLogin',
+        name: 'wxLogin',
+        component: () => import('@/views/wxLogin/index.vue') // 富文本
+      },
+      {
         path: '/more',
         name: 'more',
         component: () => import('@/views/more/index.vue') // 更多
@@ -99,6 +104,7 @@ const routes = [
 ]
 
 const router = new VueRouter({
+  // mode: 'history',
   routes
 })
 

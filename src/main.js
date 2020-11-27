@@ -2,7 +2,7 @@
  * @Author: zhang
  * @Date: 2020-05-16 18:24:01
  * @Last Modified by: yong
- * @Last Modified time: 2020-06-19 09:17:01
+ * @Last Modified time: 2020-08-11 21:20:12
  */
 
 import Vue from 'vue'
@@ -24,6 +24,14 @@ import 'quill/dist/quill.core.css' // import styles
 import 'quill/dist/quill.snow.css' // for snow theme
 import 'quill/dist/quill.bubble.css' // for bubble theme
 
+// wxLogin
+/* import wxLogin from 'vue-wxlogin';
+Vue.component('wx-login', {
+  components: {
+    wxLogin
+  }
+}); */
+
 Vue.use(VueQuillEditor /* { default global options } */)
 Vue.use(VueParticles)
 Vue.use(particles)
@@ -43,7 +51,7 @@ function errorMsg(err, msg) {
   }
 }
 
-Vue.filter('dateFormat', function(originVal) {
+Vue.filter('dateFormat', function (originVal) {
   const dt = new Date(originVal)
 
   const y = dt.getFullYear()

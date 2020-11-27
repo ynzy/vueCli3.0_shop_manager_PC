@@ -71,7 +71,10 @@ export default {
           id: 437,
           authName: '其他功能',
           path: 'orther',
-          children: [{ id: 438, authName: '富文本', path: 'richText', children: [], order: null }],
+          children: [
+            { id: 438, authName: '富文本', path: 'richText', children: [], order: null },
+            { id: 439, authName: '微信登录', path: 'wxLogin', children: [], order: null }
+          ],
           order: 1
         },
         {
